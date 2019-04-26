@@ -85,8 +85,6 @@ for i in ['CAM', 'CDM', 'LCM', 'CM', 'LAM', 'LDM', 'LM', 'RAM', 'RCM', 'RDM', 'R
 for i in ['CB', 'LB', 'LCB', 'LWB', 'RB', 'RCB', 'RWB','GK']:
   df.loc[df.Position == i , 'Pos'] = 'Defender' 
 
-df.drop(columns=["Position","Pos"],inplace=True)
-
 plt.figure(figsize=(12, 8))
 fig = sns.countplot(x = 'Pos', data =df)
 
@@ -113,6 +111,9 @@ le_class = preprocessing.LabelEncoder()
 df['Pos'] = le_class.fit_transform(df['Pos'])
 
 y = df["Pos"]
+
+df.drop(columns=["Position","Pos"],inplace=True)
+
 
 X_train, X_test, y_train, y_test = train_test_split(df, y, 
                                                     test_size=0.20, 
