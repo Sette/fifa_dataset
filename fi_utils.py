@@ -47,7 +47,6 @@ def load_dataset():
         try:
             feet = int(df_height[0])
             dlm = df_height[-2]
-    
             if dlm == "'":
                 height = round((feet * 12 + int(df_height[-1])) * 2.54, 0)
             elif dlm != "'":
