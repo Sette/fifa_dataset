@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
-"""
-Spyder Editor
 
-Este é um arquivo de script temporário.
-"""
 
 import pandas as pd
 from sklearn import preprocessing
 
 def load_dataset():
     # Path of the file to read
-    fifa_filepath = "datasets/fifadata.csv"
+    fifa_filepath = "data.csv"
     # Read the file into a variable iris_data
     data = pd.read_csv(fifa_filepath)
     # Print the first 5 rows of the data
@@ -78,12 +74,4 @@ def load_dataset():
     for i in ['CB', 'LB', 'LCB', 'LWB', 'RB', 'RCB', 'RWB','GK']:
       df.loc[df.Position == i , 'Pos'] = 'Defender' 
     
-    le_class = preprocessing.LabelEncoder()
-    
-    df['Pos'] = le_class.fit_transform(df['Pos'])
-    
-    y = df["Pos"]
-    
-    df.drop(columns=["Position","Pos"],inplace=True)
-    
-    return df, y
+    return df
