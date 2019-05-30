@@ -5,20 +5,19 @@ import pandas as pd
 from sklearn import preprocessing
 
 def load_dataset():
-    # Path of the file to read
     fifa_filepath = "data.csv"
-    # Read the file into a variable iris_data
     data = pd.read_csv(fifa_filepath)
-    # Print the first 5 rows of the data
     data.head()
     
-    
+    # Seleciona apenas algumas features de interesse
     df2 = data.loc[:, 'Crossing':'Release Clause']
     df1 = data[['Age', 'Overall', 'Value', 'Wage', 'Preferred Foot', 'Skill Moves', 'Position', 'Height', 'Weight']]
     df = pd.concat([df1, df2], axis=1)
-    
+    # Excluit todos os exemplos que possuem features ausentes
     df = df.dropna()
     
+
+    # REaliza alguns procedimentos para a padronização de algumas features
     def value_to_int(df_value):
         try:
             value = float(df_value[1:-1])
@@ -31,7 +30,7 @@ def load_dataset():
         except ValueError:
             value = 0
         return value
-      
+    # Realiza alguns procedimentos para a padronização de algumas features
     df['Value_float'] = df['Value'].apply(value_to_int)
     df['Wage_float'] = df['Wage'].apply(value_to_int)
     df['Release_Clause_float'] = df['Release Clause'].apply(lambda m: value_to_int(m))
@@ -57,13 +56,13 @@ def load_dataset():
     
     df['Height_int'] = df['Height'].apply(height_to_int)
     
-    
     df = df.drop(['Value', 'Wage', 'Release Clause', 'Weight', 'Height'], axis=1)
     
+    # Label encoder na feature Preferred Foot
     le_foot = preprocessing.LabelEncoder()
     df["Preferred Foot"] = le_foot.fit_transform(df["Preferred Foot"].values)
     
-    
+    # Transforma o problema em um problema de 3 classes, separadas por setor do campo
     for i in ['ST', 'CF', 'LF', 'LS', 'LW', 'RF', 'RS', 'RW']:
       df.loc[df.Position == i , 'Pos'] = 'Strikers' 
     
